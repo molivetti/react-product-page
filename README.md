@@ -4,7 +4,7 @@ React Product Page
 
 [Live Demo](https://molivetti.github.io/react-product-page/)
 
-React project with a JSON file datasource to populate a web page for a product.
+React project with a JSON file datasource to populate a responsive web page for a product.
 Includes:
 - [Redux](https://redux.js.org/) for managing application state
 - [AJV](https://ajv.js.org/) for JSON validation
