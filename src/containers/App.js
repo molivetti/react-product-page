@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import Error from '../components/Error';
 import Loading from '../components/Loading';
-import ProductList from '../components/ProductList';
+import Sidepanel from "../components/Sidepanel";
+import Overview from "../components/Overview";
+import Sales from "../components/Sales";
 import { fetchProducts } from "../actions/index";
 import Ajv from "ajv";
 
 class App extends Component {
 
 	componentDidMount() {
-    this.props.dispatch(fetchProducts());
+    this.props.dispatch(fetchProducts())
   }
 
 	render() {
@@ -19,8 +21,12 @@ class App extends Component {
       return <Error message={error.message} />
     }
 
-    if (loading) {
+    if (loading || products === undefined) {
       return <Loading />
+    }
+
+    if (products.length === 0) {
+    	return <Error message="No product found." />
     }
 
     const ajv = new Ajv({ removeAdditional: true });
@@ -34,17 +40,40 @@ class App extends Component {
       }
     }
     const validate = ajv.compile(schema);
-    if (products != null){
-      products.forEach(function(product){
-        if (product.sales != null){
-          product.sales = product.sales.filter(function(sale){
-            return validate(sale);
-          })
-        }
+
+    const product = products[0]
+    if (product.sales != null){
+      product.sales = product.sales.filter(function(sale){
+        return validate(sale);
       })
     }
 
-    return <ProductList products={products} />
+    return (
+      <div className="container-fluid">
+        <div className="row justify-content-center my-4">
+
+          <div className="col-xl-3 mb-4"> 
+            <Sidepanel title={product.title} subtitle={product.subtitle} image={product.image} tags={product.tags} />
+          </div>
+
+          <div className="col-xl-9">
+
+            <div className="tab-content">
+              
+              <div id="overview" role="tabpanel" aria-labelledby="overview-tab" className="tab-pane active">
+                <Overview details={product.details} brand={product.brand} retailer={product.retailer} reviews={product.reviews} />
+              </div>
+
+              <div id="sales" role="tabpanel" aria-labelledby="sales-tab" className="tab-pane">
+                <Sales sales={product.sales} />
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    )
 	}
 }
 

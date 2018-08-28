@@ -7,6 +7,7 @@ const Sales = ({ sales }) => (
     <div className="row">
       <div className="col-lg-6">
         <div className="card mb-4">
+          <div>
           <BillboardChart data={{
             json: sales,
             keys: {
@@ -18,10 +19,11 @@ const Sales = ({ sales }) => (
               retailSales: "Retail Sales", wholesaleSales: "Wholesale Sales", retailerMargin: "Retailer Margin"
             }
           }} axis={{ x: {type: "timeseries"}, tick: {format: "%Y-%m-%d"}, y: {tick: {format: function(n){return (n<1000 ? n : (n+"").slice(0,-3)+"k");}}} }}/>
+          </div>
         </div>
       </div>
       <div className="col-lg-6">
-        <div className="card mb-4">
+        <div className="card mb-4 billboardchart">
           <BillboardChart 
           data={{
             json: sales,
