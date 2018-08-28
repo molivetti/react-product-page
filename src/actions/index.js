@@ -20,7 +20,7 @@ export const fetchProductsError = error => ({
 export function fetchProducts() {
   return dispatch => {
     dispatch(fetchProductsBegin());
-    return fetch("../test.json")
+    return fetch("test.json")
       .then(handleErrors)
       .then(res => res.json())
       .then(json => {

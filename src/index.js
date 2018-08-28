@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
+import Header from './components/Header'
 import App from './containers/App'
 import rootReducer from './reducers/index'
 
@@ -22,7 +23,10 @@ const store = createStore(
 
 render(
 	<Provider store={store}>
-		<App />
+		<div>
+			<Header />
+			<App />
+		</div>
 	</Provider>,
 	document.getElementById('root')
 )
